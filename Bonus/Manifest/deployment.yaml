@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: country-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: country-app
+  template:
+    metadata:
+      labels:
+        app: country-app
+    spec:
+      containers:
+      - name: country-app
+        image: country_app:latest   # didn't build the image from dockerfile.
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 60
+          periodSeconds: 10
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: country-app-service
+spec:
+  selector:
+    app: country-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer

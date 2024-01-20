@@ -16,7 +16,7 @@ US: United States
 Bonus :
 -------
 
-How ro run script
+How to run script
 ```
 cd Bonus
 python country.py  # here i used Python3.9
